@@ -6,9 +6,9 @@ import blogData from './data/post_data';
 import BlogPosts from './components/BlogPosts';
 import BlogPost from './components/BlogPost';
 import Nav from './components/Nav';
-import NewBlogPost from './components/NewBlogPost';
-import Register from './components/Register';
-import Login from './components/Login';
+import NewBlogPost from './components/forms/NewBlogPost';
+import Register from './components/forms/Register';
+import Login from './components/forms/Login';
 import EditBlogPost from './components/EditBlogPost';
 import {StateContext} from './config/globalState';
 import {getUserFromSessionStorage} from './services/authServices'

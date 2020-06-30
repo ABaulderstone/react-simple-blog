@@ -1,19 +1,19 @@
-export default function validate(values) { 
+export default function validate({email, username, password}) { 
     let errors = {}
-    console.log(values);
-    if (!values.email) {
+    
+    if (!email) {
         errors.email = "Email address is required"
-    } else if(!/\S+@\S+\.\S+/.test(values.email)) {
+    } else if(!/\S+@\S+\.\S+/.test(email)) {
         errors.email = "Email address is invalid" 
     } 
     
-    if(!values.username) { 
+    if(!username) { 
         errors.username = "Name is required";
     } 
 
-    if(!values.password) { 
+    if(!password) { 
         errors.password = "Password is required";
-    } else if (values.password.length < 6) {
+    } else if (password.length < 6) {
         errors.password = "Password must be greater than 6 characters"
     }
     return errors
