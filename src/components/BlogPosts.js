@@ -5,6 +5,8 @@ import {useGlobalState} from '../config/globalState';
 function BlogPosts() {
     const {store} = useGlobalState();
     const {blogPosts: postData} = store;
+    
+
     return (
         <div>
             {postData.sort((a,b) => b.modified_date - a.modified_date)

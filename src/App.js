@@ -54,7 +54,7 @@ const App = () => {
       <Route exact path ='/register' component={Register}/>
       <Route exact path ='/login' component={Login}/>
       <Route exact path ='/posts/new'
-      render = {(props) => <NewBlogPost {...props}  getNextId={getNextId()}  />}
+      render = {(props) => <NewBlogPost {...props}  nextId={getNextId()}  />}
       />
       
       <Route exact path ='/posts/:id' 

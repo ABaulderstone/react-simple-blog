@@ -1,60 +1,29 @@
 import React, { useState } from 'react';
 import {useGlobalState} from '../config/globalState';
 import {setUserInSessionStorage} from '../services/authServices'
+import useForm from '../config/useForm';
+import validate from '../config/RegisterFormValidationRules';
+import Input from './Input';
 
 function Register({history}) {
     const {dispatch} = useGlobalState();
-    const initalState = {
-        username: '',
-        email: '',
-        password: ''
-    }
-    
-    const [formState, setFormState] = useState(initalState);
-   
-    const handleChange = (event) => {
-        const {name, value} = event.target;
-        setFormState({...formState, [name]:value})
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setUserInSessionStorage(formState.username);
-        dispatch({type: "setLoggedInUser", data: formState.username})
+    const onSubmit = () => {
+        setUserInSessionStorage(values.username);
+        dispatch({type: "setLoggedInUser", data: values.username})
         history.push('/')
+        console.log(values, errors);
         
     }
-
-    const divStyles = {
-        display: 'grid',
-        width: '100vw',
-    }
-    const inputStyles = {
-        width: '70vw',
-        margin: '0.5em'
-    }
-    const labelStyles = {
-        fontSize: '1.2em'
-    }
+    const {errors, values, handleSubmit, handleChange} = useForm(onSubmit, validate);
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div style={divStyles}>
-                <label style={labelStyles}>Username</label>
-                <input style={inputStyles} type='text' name='username' onChange={handleChange} value={formState.username}></input>
-                </div>
-                <div style={divStyles}>
-                <label style={labelStyles}>Email</label>
-                <input style={inputStyles} type='email' name='email' onChange={handleChange} value ={formState.email}></input>
-                </div>
-                <div style={divStyles}>
-                <label style={labelStyles}>Password </label>
-                <input style={inputStyles} type='password' name='password' onChange={handleChange} value={formState.password}></input>
-                </div>
-                <input type='submit' value='Register' />
+            <Input error={errors.username} type='text' label="Username" name='username' onChange={handleChange} value={values.username } />
+            <Input error={errors.email} type='email' label="Email" name='email' onChange={handleChange} value={values.email} />
+            <Input error={errors.password} type='password' label='Password' name='password' onChange={handleChange} value={values.password} />
+            <input type='submit' value='Register' />
             </form>
-            
         </div>
     )
 }

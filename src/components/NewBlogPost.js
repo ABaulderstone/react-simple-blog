@@ -1,9 +1,25 @@
 import React, {useState} from 'react';
 import {useGlobalState} from '../config/globalState';
+import useForm from '../config/useForm';
 
 function NewBlogPost(props) {
+
    const {dispatch} = useGlobalState();
    const {history, nextId} = props
+
+   const onSubmit = () => {
+        
+    const newPost = {
+        _id: nextId,
+        title: values.title,
+        category: values.category,
+        content: values.content,
+        modified_date: new Date()
+    }
+    dispatch({type: "addBlogPost", data: newPost})
+    history.push('/')
+}
+   const {values, handleChange, handleSubmit} = useForm(onSubmit);
     //styling
     const divStyles = {
        display: 'grid',
@@ -28,39 +44,26 @@ function NewBlogPost(props) {
         category: "",
         content: ""
     }
-    const [formState, setFormState] = useState(initalFormState);
+    
 
-    const handleChange = (event) => {
-        const {name, value} = event.target;
-        setFormState({...formState, [name]: value});
-    }
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        const newPost = {
-            _id: nextId,
-            title: formState.title,
-            category: formState.category,
-            content: formState.content,
-            modified_date: new Date()
-        }
-        dispatch({type: "addBlogPost", data: newPost})
-        history.push('/')
-    }
+
+    
+ 
    
     return (
         <form onSubmit={handleSubmit}>
             <div style={divStyles}>
                 <label style={labelStyles}>Title</label>
-                <input style={inputStyles} required type="text" name="title" placeholder="Enter a title" onChange ={handleChange}/>
+                <input style={inputStyles} required type="text" name="title" value={values.title} placeholder="Enter a title" onChange ={handleChange}/>
             </div>
             <div style={divStyles}>
                 <label style={labelStyles}>Category</label>
-                <input style={inputStyles}  type="text" name="category" onChange={handleChange}/>
+                <input style={inputStyles}  type="text" name="category" value={values.category} onChange={handleChange}/>
             </div>
             <div style={divStyles}>
                 <label style={labelStyles}>Content</label>
-                <textarea style={textAreaStyles} type="text" name="content" placeholder="Enter a Post" onChange={handleChange} />
+                <textarea style={textAreaStyles} type="text" name="content" value={values.content} placeholder="Enter a Post" onChange={handleChange} />
             </div>
             <input type='submit' value='Add a Post'></input>
         </form>
