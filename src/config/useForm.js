@@ -3,20 +3,20 @@ import {useState, useEffect} from 'react';
 const useForm = (callback, validate) => {
     const [values, setValues] = useState({});
     const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    useEffect(() => {
+        setErrors(validate(values));
+    },[values]);
     
     const handleSubmit = (event) => {
         event && event.preventDefault();
         setErrors(validate(values));
-        setIsSubmitting(true);
-    };
-   
-    useEffect(() => {
-        if (Object.keys(errors).length === 0 && isSubmitting) {
-            console.log("Form submit");
+        if (Object.keys(errors).length === 0) {
             callback();
         }
-    }, [errors]); 
+      
+    };
+   
 
     const handleChange = (event) => {
         event.persist(); 
@@ -26,7 +26,7 @@ const useForm = (callback, validate) => {
         handleChange,
         handleSubmit,
         values, 
-        errors
+        errors, 
     }
 }
 

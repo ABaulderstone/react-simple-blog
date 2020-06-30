@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 function Input(props) {
     const divStyles = {
@@ -16,6 +16,7 @@ function Input(props) {
         margin: '0.5em',
         color: 'red'
     }
+    const [touched, setTouched] = useState(false);
 
     const {type, name, onChange, value, error, label} = props;
 
@@ -23,8 +24,8 @@ function Input(props) {
     return (
         <div style={divStyles}>
         <label style={labelStyles}>{label}</label>
-        <input style={inputStyles} type={type} name={name} onChange={onChange} value={value || ''}></input>
-        {error && <p style={warningStyles}>{error}</p>}
+        <input style={inputStyles} type={type} name={name} onChange={onChange} value={value} onBlur={() => setTouched(true)}></input>
+        {error && touched && <p style={warningStyles}>{error}</p>}
         </div>
     )
 }
