@@ -3,7 +3,7 @@ import {useGlobalState}  from '../config/globalState';
 import {setUserInSessionStorage} from '../services/authServices'
 
 
-function Login({history}) {
+function Login({history, redirectedFrom}) {
     const {dispatch} = useGlobalState()
     const initalState = {
         username: '',
@@ -21,7 +21,7 @@ function Login({history}) {
         event.preventDefault();
         setUserInSessionStorage(formState.username);
         dispatch({type: "setLoggedInUser", data: formState.username})
-        history.push('/')
+        redirectedFrom ? history.push(redirectedFrom): history.push('/')
     }
 
     const divStyles = {
@@ -35,10 +35,12 @@ function Login({history}) {
     const labelStyles = {
         fontSize: '1.2em'
     }
+    console.log(redirectedFrom);
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                {redirectedFrom && <p>You need to log in to do that ... </p>}
                 <div style={divStyles}>
                 <label style={labelStyles}>Username</label>
                 <input style={inputStyles} type='text' name='username' onChange={handleChange} value={formState.username}></input>
