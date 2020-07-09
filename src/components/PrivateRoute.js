@@ -14,6 +14,7 @@ function PrivateRoute(props) {
     
     return (
         <Route {...rest} render={(routeProps)  => {
+            console.log("options: ", options)
             return loggedInUser ? <Component {...routeProps} {...options} /> : <Login {...routeProps} redirectedFrom={history.location.pathname} />
         }}/>
     )
